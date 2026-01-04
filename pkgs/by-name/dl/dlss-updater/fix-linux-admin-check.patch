@@ -1,0 +1,24 @@
+diff --git a/dlss_updater/utils.py b/dlss_updater/utils.py
+--- a/dlss_updater/utils.py
++++ b/dlss_updater/utils.py
+@@ -248,14 +248,22 @@ def check_dependencies():
+ def run_as_admin():
++    # On Linux, we don't need admin privileges for updating game DLLs
++    # in user-writable directories. Skip the elevation attempt.
++    if sys.platform != "win32":
++        return
+     script = Path(sys.argv[0]).resolve()
+     params = " ".join([str(script)] + sys.argv[1:])
+     logger.info("Re-running script with admin privileges...")
+     ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, params, None, 1)
+ 
+ 
+ def is_admin():
++    # On Linux, check if running as root (uid 0)
++    # However, for game DLL updates in user directories, root is not needed
++    if sys.platform != "win32":
++        return True  # Allow running without root on Linux
+     try:
+         return ctypes.windll.shell32.IsUserAnAdmin()
+     except:
+         return False

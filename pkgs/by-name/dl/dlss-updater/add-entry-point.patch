@@ -1,0 +1,17 @@
+diff --git a/dlss_updater/__main__.py b/dlss_updater/__main__.py
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/dlss_updater/__main__.py
+@@ -0,0 +1,11 @@
++"""Entry point for running dlss_updater as a module."""
++import sys
++import flet as ft
++
++# Import from root main.py (copied during build)
++from dlss_updater.main import check_prerequisites, main
++
++
++if __name__ == "__main__":
++    check_prerequisites()
++    ft.app(target=main)

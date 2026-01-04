@@ -1,0 +1,19 @@
+diff --git a/dlss_updater/logger.py b/dlss_updater/logger.py
+--- a/dlss_updater/logger.py
++++ b/dlss_updater/logger.py
+@@ -16,11 +16,10 @@ def setup_logger(log_file_name="dlss_updater.log"):
+     if not logger.handlers:
+         logger.setLevel(logging.DEBUG)
+
+-        log_file_path = (
+-            Path(sys.executable).parent / log_file_name
+-            if getattr(sys, "frozen", False)
+-            else Path(__file__).parent / log_file_name
+-        )
++        # Use XDG-compliant location for log files
++        log_dir = Path.home() / ".local" / "share" / "dlss-updater"
++        log_dir.mkdir(parents=True, exist_ok=True)
++        log_file_path = log_dir / log_file_name
+
+         # Create handlers
+         console_handler = logging.StreamHandler(sys.stdout)
