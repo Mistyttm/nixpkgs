@@ -3325,6 +3325,11 @@ with pkgs;
 
   tautulli = python3Packages.callPackage ../servers/tautulli { };
 
+  tdarrPackages = lib.makeScope newScope (self: {
+    server = self.callPackage ../by-name/td/tdarr-server/package.nix { };
+    node = self.callPackage ../by-name/td/tdarr-node/package.nix { };
+  });
+
   inherit (callPackage ../development/tools/pnpm { })
     pnpm_8
     pnpm_9
