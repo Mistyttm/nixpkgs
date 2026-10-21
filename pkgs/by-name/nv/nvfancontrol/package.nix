@@ -39,7 +39,7 @@ rustPlatform.buildRustPackage rec {
     changelog = "https://github.com/foucault/nvfancontrol/releases/tag/${version}";
     license = lib.licenses.gpl3Only;
     platforms = lib.platforms.linux;
-    maintainers = with lib.maintainers; [ devins2518 mistyttm ];
+    maintainers = with lib.maintainers; [ mistyttm ];
     mainProgram = "nvfancontrol";
   };
 }
