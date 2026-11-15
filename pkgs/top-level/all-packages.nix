@@ -749,6 +749,8 @@ with pkgs;
   mkBinaryCache = callPackage ../build-support/binary-cache { };
 
   mkProtonBinDerivation = callPackage ../build-support/proton/mk-proton-bin-derivation.nix { };
+  mkProtonDerivation = callPackage ../build-support/proton/mk-proton-derivation.nix { };
+  mkProtonSlrDerivation = callPackage ../build-support/proton/mk-proton-slr-derivation.nix { };
   proton-bin-update-script = callPackage ../build-support/proton/update-script.nix { };
 
   mkShell = callPackage ../build-support/mkshell { };
