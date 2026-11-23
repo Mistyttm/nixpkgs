@@ -1,0 +1,31 @@
+{
+  lib,
+  mkObsPlugin,
+  fetchFromGitHub,
+  cmake,
+}:
+
+mkObsPlugin (finalAttrs: {
+  pname = "obs-scene-as-transition";
+  version = "1.1.1";
+
+  src = fetchFromGitHub {
+    owner = "andilippi";
+    repo = "obs-scene-as-transition";
+    rev = "v${finalAttrs.version}";
+    hash = "sha256-qeiJR68MqvhpzvY7yNnR6w77SvavlZTdbnGBWrd7iZM=";
+  };
+
+  nativeBuildInputs = [ cmake ];
+
+  postInstall = ''
+    rm -rf $out/obs-plugins $out/data
+  '';
+
+  meta = {
+    description = "OBS Studio plugin that will allow you to use a Scene as a transition";
+    homepage = "https://github.com/andilippi/obs-scene-as-transition";
+    maintainers = with lib.maintainers; [ flexiondotorg ];
+    license = lib.licenses.gpl2Plus;
+  };
+})

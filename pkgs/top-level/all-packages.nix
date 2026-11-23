@@ -8326,12 +8326,8 @@ with pkgs;
     pythonPackages = python3Packages;
   };
 
-  obs-studio = callPackage ../applications/video/obs-studio { };
-
-  obs-studio-plugins = recurseIntoAttrs (
-    callPackage ../applications/video/obs-studio/plugins.nix { }
-  );
-  wrapOBS = callPackage ../applications/video/obs-studio/wrapper.nix { };
+  obs-studio-plugins = recurseIntoAttrs (callPackage ../by-name/ob/obs-plugins/plugins.nix { });
+  wrapOBS = callPackage ../by-name/ob/obs-studio/wrapper.nix { };
 
   open-music-kontrollers = recurseIntoAttrs {
     eteroj = callPackage ../applications/audio/open-music-kontrollers/eteroj.nix { };

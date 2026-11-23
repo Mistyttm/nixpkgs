@@ -1,0 +1,57 @@
+{
+  lib,
+  mkObsPlugin,
+  fetchFromGitHub,
+  cmake,
+  pkg-config,
+  obs-studio,
+  libGL,
+  qt6,
+  flatbuffers,
+}:
+
+mkObsPlugin (finalAttrs: {
+  pname = "obs-hyperion";
+  version = "1.0.2";
+
+  src = fetchFromGitHub {
+    owner = "hyperion-project";
+    repo = "hyperion-obs-plugin";
+    rev = finalAttrs.version;
+    hash = "sha256-UAfjafoZhhhHRSo+eUBLhHaCmn2GYFcYyRb9wHIp/9I=";
+  };
+
+  nativeBuildInputs = [
+    cmake
+    flatbuffers
+    pkg-config
+  ];
+  buildInputs = [
+    flatbuffers
+    libGL
+    qt6.qtbase
+  ];
+
+  dontWrapQtApps = true;
+
+  patches = [ ./check-state-changed.patch ];
+
+  cmakeFlags = [
+    "-DOBS_SOURCE=${obs-studio.src}"
+    "-DGLOBAL_INSTALLATION=ON"
+    "-DUSE_SYSTEM_FLATBUFFERS_LIBS=ON"
+  ];
+
+  env.NIX_CFLAGS_COMPILE = toString [ "-Wno-error" ];
+
+  preConfigure = ''
+    rm -rf external/flatbuffers
+  '';
+
+  meta = {
+    description = "OBS Studio plugin to connect to a Hyperion.ng server";
+    homepage = "https://github.com/hyperion-project/hyperion-obs-plugin";
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ algram ];
+  };
+})

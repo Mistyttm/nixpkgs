@@ -1,0 +1,34 @@
+{
+  lib,
+  mkObsPlugin,
+  fetchFromGitHub,
+  cmake,
+}:
+
+mkObsPlugin (finalAttrs: {
+  pname = "obs-vintage-filter";
+  version = "1.0.0";
+
+  src = fetchFromGitHub {
+    owner = "cg2121";
+    repo = "obs-vintage-filter";
+    rev = finalAttrs.version;
+    hash = "sha256-K7AxvwVLe4G+75aY430lygSRB7rMtsGi17pGzdygEac=";
+  };
+
+  nativeBuildInputs = [ cmake ];
+
+  postInstall = ''
+    mkdir $out/lib $out/share
+    mv $out/obs-plugins/64bit $out/lib/obs-plugins
+    rm -rf $out/obs-plugins
+    mv $out/data $out/share/obs
+  '';
+
+  meta = {
+    description = "OBS Studio filter where the source can be set to be black & white or sepia";
+    homepage = "https://github.com/cg2121/obs-vintage-filter";
+    maintainers = with lib.maintainers; [ flexiondotorg ];
+    license = lib.licenses.gpl2Plus;
+  };
+})
